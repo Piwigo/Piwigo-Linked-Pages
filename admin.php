@@ -71,7 +71,7 @@ DELETE FROM '.LINKEDPAGES_TABLE.'
         ));
     }
     
-    mass_inserts_ignore(
+    mass_inserts(
       LINKEDPAGES_TABLE, 
       array('category_id','page_id','pos'), 
       $inserts

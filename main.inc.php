@@ -21,23 +21,8 @@ define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-linked_pag
 define('LINKEDPAGES_VERSION', '1.0.0');
 
 
-// +-----------------------------------------------------------------------+
-// | Add event handlers                                                    |
-// +-----------------------------------------------------------------------+
 // init the plugin
 add_event_handler('init', 'linked_pages_init');
-
-if (defined('IN_ADMIN'))
-{
-  add_event_handler('tabsheet_before_select', 'linked_pages_tabsheet_before_select', EVENT_HANDLER_PRIORITY_NEUTRAL, 2);
-}
-else
-{
-  add_event_handler('loc_end_index', 'linked_pages_loc_end_index', EVENT_HANDLER_PRIORITY_NEUTRAL+20);
-}
-
-include_once(LINKEDPAGES_PATH . 'include/functions.inc.php');
-
 
 
 /**
@@ -51,6 +36,18 @@ function linked_pages_init()
   {
     return;
   }
+  
+  // add event handlers
+  if (defined('IN_ADMIN'))
+  {
+    add_event_handler('tabsheet_before_select', 'linked_pages_tabsheet_before_select', EVENT_HANDLER_PRIORITY_NEUTRAL, 2);
+  }
+  else
+  {
+    add_event_handler('loc_end_index', 'linked_pages_loc_end_index', EVENT_HANDLER_PRIORITY_NEUTRAL+20);
+  }
+
+  include_once(LINKEDPAGES_PATH . 'include/functions.inc.php');
   
   if (
     $pwg_loaded_plugins['linked_pages']['version'] == 'auto' or
