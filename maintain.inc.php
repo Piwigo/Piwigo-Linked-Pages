@@ -2,7 +2,7 @@
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 defined('LINKEDPAGES_ID') or define('LINKEDPAGES_ID', basename(dirname(__FILE__)));
-include_once(PHPWG_PLUGINS_PATH . LINKEDPAGES_ID '/include/install.inc.php');
+include_once(PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/include/install.inc.php');
 
 
 function plugin_install() 
