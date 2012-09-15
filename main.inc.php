@@ -15,9 +15,10 @@ global $prefixeTable;
 // +-----------------------------------------------------------------------+
 // | Define plugin constants                                               |
 // +-----------------------------------------------------------------------+
-define('LINKEDPAGES_PATH' ,   PHPWG_PLUGINS_PATH . 'linked_pages/');
+defined('LINKEDPAGES_ID') or define('LINKEDPAGES_ID', basename(dirname(__FILE__)));
+define('LINKEDPAGES_PATH' ,   PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/');
 define('LINKEDPAGES_TABLE',   $prefixeTable . 'linked_pages');
-define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-linked_pages');
+define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-' . LINKEDPAGES_ID);
 define('LINKEDPAGES_VERSION', '1.0.0');
 
 
@@ -50,26 +51,26 @@ function linked_pages_init()
   include_once(LINKEDPAGES_PATH . 'include/functions.inc.php');
   
   if (
-    $pwg_loaded_plugins['linked_pages']['version'] == 'auto' or
-    version_compare($pwg_loaded_plugins['linked_pages']['version'], LINKEDPAGES_VERSION, '<')
+    $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] == 'auto' or
+    version_compare($pwg_loaded_plugins[LINKEDPAGES_ID]['version'], LINKEDPAGES_VERSION, '<')
   )
   {
     include_once(LINKEDPAGES_PATH . 'include/install.inc.php');
     linked_pages_install();
     
-    if ($pwg_loaded_plugins['linked_pages']['version'] != 'auto')
+    if ($pwg_loaded_plugins[LINKEDPAGES_ID]['version'] != 'auto')
     {
       $query = '
 UPDATE '. PLUGINS_TABLE .'
 SET version = "'. LINKEDPAGES_VERSION .'"
-WHERE id = "linked_pages"';
+WHERE id = "'. LINKEDPAGES_ID .'"';
       pwg_query($query);
       
-      $pwg_loaded_plugins['linked_pages']['version'] = LINKEDPAGES_VERSION;
+      $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] = LINKEDPAGES_VERSION;
       
       if (defined('IN_ADMIN'))
       {
-        $_SESSION['page_infos'][] = 'Skeleton updated to version '. LINKEDPAGES_VERSION;
+        $_SESSION['page_infos'][] = 'Linked Pages updated to version '. LINKEDPAGES_VERSION;
       }
     }
   }
