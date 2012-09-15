@@ -77,6 +77,8 @@ DELETE FROM '.LINKEDPAGES_TABLE.'
       $inserts
       );
   }
+  
+  array_push($page['infos'], l10n('Information data registered in database'));
 }
 
 // +-----------------------------------------------------------------------+

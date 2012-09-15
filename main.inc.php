@@ -19,7 +19,7 @@ defined('LINKEDPAGES_ID') or define('LINKEDPAGES_ID', basename(dirname(__FILE__)
 define('LINKEDPAGES_PATH' ,   PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/');
 define('LINKEDPAGES_TABLE',   $prefixeTable . 'linked_pages');
 define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-' . LINKEDPAGES_ID);
-define('LINKEDPAGES_VERSION', '1.0.0');
+define('LINKEDPAGES_VERSION', '1.0.1');
 
 
 // init the plugin
