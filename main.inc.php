@@ -19,7 +19,7 @@ defined('LINKEDPAGES_ID') or define('LINKEDPAGES_ID', basename(dirname(__FILE__)
 define('LINKEDPAGES_PATH' ,   PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/');
 define('LINKEDPAGES_TABLE',   $prefixeTable . 'linked_pages');
 define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-' . LINKEDPAGES_ID);
-define('LINKEDPAGES_VERSION', '1.0.1');
+define('LINKEDPAGES_VERSION', 'auto');
 
 
 // init the plugin
@@ -51,6 +51,7 @@ function linked_pages_init()
   include_once(LINKEDPAGES_PATH . 'include/functions.inc.php');
   
   if (
+    LINKEDPAGES_VERSION == 'auto' or
     $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] == 'auto' or
     version_compare($pwg_loaded_plugins[LINKEDPAGES_ID]['version'], LINKEDPAGES_VERSION, '<')
   )
@@ -58,7 +59,7 @@ function linked_pages_init()
     include_once(LINKEDPAGES_PATH . 'include/install.inc.php');
     linked_pages_install();
     
-    if ($pwg_loaded_plugins[LINKEDPAGES_ID]['version'] != 'auto')
+    if ( $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] != 'auto' and LINKEDPAGES_VERSION != 'auto')
     {
       $query = '
 UPDATE '. PLUGINS_TABLE .'
