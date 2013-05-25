@@ -44,6 +44,8 @@ $tabsheet->set_id('album');
 $tabsheet->select('linked_pages');
 $tabsheet->assign();
 
+$page['active_menu'] = get_active_menu('album');
+
 load_language('plugin.lang', AP_PATH);
 $languages = get_languages();
 
