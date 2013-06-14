@@ -3,7 +3,7 @@
 Plugin Name: Linked Pages
 Version: auto
 Description: Link Additional Pages to albums.
-Plugin URI: http://piwigo.org/ext/extension_view.php?eid=635
+Plugin URI: auto
 Author: Mistic
 Author URI: http://www.strangeplanet.fr
 */

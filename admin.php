@@ -147,6 +147,7 @@ $template->assign(array(
     LINKEDPAGES_ADMIN.'-album-'
     ),
   'LINKEDPAGES_PATH'=> get_root_url() . LINKEDPAGES_PATH,
+  'AP_ADMIN' => get_root_url() . 'admin.php?page=plugin-' . AP_DIR
   ));
  
 $template->set_filename('linked_pages_content', realpath(LINKEDPAGES_PATH . 'template/admin_album.tpl'));
