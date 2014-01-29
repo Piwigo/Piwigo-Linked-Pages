@@ -5,7 +5,7 @@
 }
   #linked_pages li {
     display:inline-block;
-    padding:0;
+    padding:0 0 15px 0;
   }
   #linked_pages li a {
     padding:4px 8px;

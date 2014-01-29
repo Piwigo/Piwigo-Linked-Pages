@@ -8,7 +8,7 @@ Author: Mistic
 Author URI: http://www.strangeplanet.fr
 */
 
-if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
 if (mobile_theme())
 {
@@ -20,7 +20,7 @@ global $prefixeTable;
 // +-----------------------------------------------------------------------+
 // | Define plugin constants                                               |
 // +-----------------------------------------------------------------------+
-defined('LINKEDPAGES_ID') or define('LINKEDPAGES_ID', basename(dirname(__FILE__)));
+define('LINKEDPAGES_ID',      basename(dirname(__FILE__)));
 define('LINKEDPAGES_PATH' ,   PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/');
 define('LINKEDPAGES_TABLE',   $prefixeTable . 'linked_pages');
 define('LINKEDPAGES_ADMIN',   get_root_url() . 'admin.php?page=plugin-' . LINKEDPAGES_ID);
@@ -43,6 +43,10 @@ function linked_pages_init()
     return;
   }
   
+  include_once(LINKEDPAGES_PATH . 'maintain.inc.php');
+  $maintain = new linked_pages_maintain(LINKEDPAGES_ID);
+  $maintain->autoUpdate(LINKEDPAGES_VERSION, 'install');
+  
   // add event handlers
   if (defined('IN_ADMIN'))
   {
@@ -54,32 +58,4 @@ function linked_pages_init()
   }
 
   include_once(LINKEDPAGES_PATH . 'include/functions.inc.php');
-  
-  if (
-    LINKEDPAGES_VERSION == 'auto' or
-    $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] == 'auto' or
-    version_compare($pwg_loaded_plugins[LINKEDPAGES_ID]['version'], LINKEDPAGES_VERSION, '<')
-  )
-  {
-    include_once(LINKEDPAGES_PATH . 'include/install.inc.php');
-    linked_pages_install();
-    
-    if ( $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] != 'auto' and LINKEDPAGES_VERSION != 'auto')
-    {
-      $query = '
-UPDATE '. PLUGINS_TABLE .'
-SET version = "'. LINKEDPAGES_VERSION .'"
-WHERE id = "'. LINKEDPAGES_ID .'"';
-      pwg_query($query);
-      
-      $pwg_loaded_plugins[LINKEDPAGES_ID]['version'] = LINKEDPAGES_VERSION;
-      
-      if (defined('IN_ADMIN'))
-      {
-        $_SESSION['page_infos'][] = 'Linked Pages updated to version '. LINKEDPAGES_VERSION;
-      }
-    }
-  }
 }
-
-?>

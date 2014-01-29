@@ -1,4 +1,4 @@
-{combine_css path=$LINKEDPAGES_PATH|@cat:"template/style.css"}
+{combine_css path=$LINKEDPAGES_PATH|cat:"template/style.css"}
 
 <ul id="linked_pages">
 {foreach from=$category_pages item=page name=foo}

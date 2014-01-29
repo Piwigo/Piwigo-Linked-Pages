@@ -24,7 +24,7 @@ function linked_pages_loc_end_index()
 {
   global $page, $user, $template, $conf;
   
-  if ( isset($page['section']) and $page['section']=='categories' and isset($page['category']) )
+  if (isset($page['section']) and $page['section']=='categories' and isset($page['category']))
   {
     $where_clauses = array('category_id = '.$page['category']['id']);
     
@@ -49,7 +49,7 @@ SELECT group_id
   FROM '.USER_GROUP_TABLE.'
   WHERE user_id = '.$user['id'].'
 ;';
-        $user_groups = array_from_query($query, 'group_id');
+        $user_groups = query2array($query, null, 'group_id');
       }
     }
     
@@ -77,7 +77,7 @@ SELECT
     
     while ($row = pwg_db_fetch_assoc($result))
     {
-      if ( !is_admin() and $conf['AP']['group_perm'] and !empty($row['groups']) )
+      if (!is_admin() and $conf['AP']['group_perm'] and !empty($row['groups']))
       {
         $authorized = false;
         foreach (explode(',',$row['groups']) as $group_id)
@@ -90,7 +90,6 @@ SELECT
         }
         if (!$authorized) continue;
       }
-        
       
       $row['U_PAGE'] = make_index_url(array('section'=>'page')).'/'.(isset($row['permalink']) ? $row['permalink'] : $row['page_id']);
       $row['TITLE'] = trigger_event('AP_render_title', $row['title']);
@@ -98,10 +97,11 @@ SELECT
     }
     
     $template->assign('LINKEDPAGES_PATH', LINKEDPAGES_PATH);
-    $template->set_prefilter('index', 'linked_pages_prefilter_index');
+    $template->set_filename('linked_pages_content', realpath(LINKEDPAGES_PATH . 'template/index_menu.tpl'));
+    $template->assign('PLUGIN_INDEX_CONTENT_BEGIN', $template->parse('linked_pages_content',true).$template->get_template_vars('PLUGIN_INDEX_CONTENT_BEGIN'));
     
   }
-  else if ( isset($page['section']) and $page['section']=='additional_page' and isset($page['additional_page']) )
+  else if (isset($page['section']) and $page['section']=='additional_page' and isset($page['additional_page']))
   {
     $where_clauses = array('page_id = '.$page['additional_page']['id']);
     
@@ -149,13 +149,3 @@ SELECT
     $template->assign('PLUGIN_INDEX_CONTENT_BEGIN', $template->parse('linked_pages_content',true).$template->get_template_vars('PLUGIN_INDEX_CONTENT_BEGIN'));
   }
 }
-
-function linked_pages_prefilter_index($content)
-{
-  $search = '#(</div>{\* <!-- titrePage --> \*}|<div id="subcontent">|<div class="subcontent">)#';
-  $replace = "$1\n".file_get_contents(LINKEDPAGES_PATH . 'template/index_menu.tpl');
-  return preg_replace($search, $replace, $content);
-}
-
-
-?>
