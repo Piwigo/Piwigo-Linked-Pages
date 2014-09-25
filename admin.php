@@ -105,7 +105,7 @@ $cat_pages = array();
 while ($row = pwg_db_fetch_assoc($result))
 {
   $row['U_PAGE'] = make_index_url(array('section'=>'page')).'/'.(isset($row['permalink']) ? $row['permalink'] : $row['page_id']);
-  $row['title'] = trigger_event('AP_render_title', $row['title']);
+  $row['title'] = trigger_change('AP_render_title', $row['title']);
   $row['language'] = @$languages[$row['lang']];
   $cat_pages[$row['page_id']] = $row;
 }
@@ -131,7 +131,7 @@ while ($row = pwg_db_fetch_assoc($result))
     $row['disabled'] = 'disabled="disabled"';
   }
   $row['U_PAGE'] = make_index_url(array('section'=>'page')).'/'.(isset($row['permalink']) ? $row['permalink'] : $row['id']);
-  $row['title'] = trigger_event('AP_render_title', $row['title']);
+  $row['title'] = trigger_change('AP_render_title', $row['title']);
   $row['language'] = @$languages[$row['lang']];
   $template->append('pages', $row);
 }

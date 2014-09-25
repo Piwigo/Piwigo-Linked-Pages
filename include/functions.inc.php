@@ -92,7 +92,7 @@ SELECT
       }
       
       $row['U_PAGE'] = make_index_url(array('section'=>'page')).'/'.(isset($row['permalink']) ? $row['permalink'] : $row['page_id']);
-      $row['TITLE'] = trigger_event('AP_render_title', $row['title']);
+      $row['TITLE'] = trigger_change('AP_render_title', $row['title']);
       $template->append('category_pages', $row);
     }
     
@@ -140,7 +140,7 @@ SELECT
             )
           )
         );
-      $row['TITLE'] = trigger_event('render_category_name', $row['name']);
+      $row['TITLE'] = trigger_change('render_category_name', $row['name']);
       $template->append('category_pages', $row);
     }
     
