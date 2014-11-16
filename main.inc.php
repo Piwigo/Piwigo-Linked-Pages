@@ -10,6 +10,17 @@ Author URI: http://www.strangeplanet.fr
 
 defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
+if (basename(dirname(__FILE__)) != 'linked_pages')
+{
+  add_event_handler('init', 'linked_pages_error');
+  function linked_pages_error()
+  {
+    global $page;
+    $page['errors'][] = 'Linked Pages folder name is incorrect, uninstall the plugin and rename it to "linked_pages"';
+  }
+  return;
+}
+
 if (mobile_theme())
 {
   return;
@@ -17,10 +28,9 @@ if (mobile_theme())
 
 global $prefixeTable;
 
-define('LINKEDPAGES_ID',    basename(dirname(__FILE__)));
-define('LINKEDPAGES_PATH' , PHPWG_PLUGINS_PATH . LINKEDPAGES_ID . '/');
+define('LINKEDPAGES_PATH' , PHPWG_PLUGINS_PATH . 'linked_pages/');
 define('LINKEDPAGES_TABLE', $prefixeTable . 'linked_pages');
-define('LINKEDPAGES_ADMIN', get_root_url() . 'admin.php?page=plugin-' . LINKEDPAGES_ID);
+define('LINKEDPAGES_ADMIN', get_root_url() . 'admin.php?page=plugin-linked_pages');
 
 
 add_event_handler('init', 'linked_pages_init');
